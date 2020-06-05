@@ -1,9 +1,8 @@
-#ifndef GREEDYINSERT_INCLUDED // -*- C++ -*-
-#define GREEDYINSERT_INCLUDED
+#pragma once
 
-#include "Heap.h"
-#include "Subdivision.h"
-#include "Map.h"
+#include "heap.h"
+#include "subdivision.h"
+#include "map.h"
 
 class TrackedTriangle : public Triangle
 {
@@ -67,7 +66,7 @@ protected:
 public:
     GreedySubdivision(Map *map);
 
-    array2<char> is_used;
+    xarray2<char> is_used;
 
     Edge *select(int sx, int sy, Triangle *t=NULL);
 
@@ -86,5 +85,3 @@ public:
 // These are the possible values of is_used(x,y):
 #define DATA_POINT_UNUSED  0
 #define DATA_POINT_USED    1
-
-#endif

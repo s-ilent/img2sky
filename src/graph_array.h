@@ -30,13 +30,13 @@
 //
 // Current version: 3.00 BETA 3 (04/12/2002)
 //
-// Comment: graph_array is equivalent to an array of nodes linked by
+// Comment: graph_array is equivalent to an xarray of nodes linked by
 //          arcs.
 //          This means you can't change the size (the number of nodes)
 //          of the graph once you created it (setsize() will delete
 //          any previous nodes and arcs).
 //          But you can add or remove arcs.
-//          
+//
 // History: - 3.00 BETA 3 (04/12/2002) - Added empty()
 //                                     - Changed some parameters from copy to reference
 //                                     - Fixed a bug with erase_arc
@@ -59,7 +59,7 @@ namespace common_structures {
 
 // graph_array main class
 template <class nodetype, class arctype>
-class graph_array 
+class graph_array
 {
 public:
 
@@ -74,7 +74,7 @@ public:
 	typedef typename std::vector<node>::const_reverse_iterator	const_node_reverse_iterator;
 
 	typedef graph_array<nodetype, arctype> _mytype;
-	
+
 
 	// graph_array::arc class
 	class arc
@@ -100,7 +100,7 @@ public:
 
 		arc(const node_iterator & Initial, const node_iterator & Terminal, const arctype & Elem)
 			: m_Initial(Initial), m_Terminal(Terminal), m_Elem(Elem), m_Marker(false) { }
-	
+
 		node_iterator	m_Initial;
 		node_iterator	m_Terminal;
 		arctype			m_Elem;
@@ -139,7 +139,7 @@ public:
 	public:
 		node() : m_Marker(false) { }
 	protected:
-	
+
 		friend class graph_array<nodetype, arctype>;
 		friend class std::vector<node>;
 
@@ -370,7 +370,7 @@ inline void graph_array<nodetype, arctype>::erase_arcs(const node_iterator & Ini
 template <class nodetype, class arctype>
 inline void graph_array<nodetype, arctype>::erase_arcs() {
 	m_NbArcs = 0;
-	for (nodeid i = 0; i < Size(); ++i)
+	for (nodeid i = 0; i < size(); ++i)
 		m_Nodes[i].m_OutArcs.clear();
 }
 
@@ -390,7 +390,7 @@ inline void graph_array<nodetype, arctype>::swap(_mytype & Right) {
 template <class nodetype, class arctype>
 void unmark_nodes(graph_array<nodetype, arctype> & G)
 {
-	typedef graph_array<nodetype, arctype>::node_iterator node_it;
+	typedef typename graph_array<nodetype, arctype>::node_iterator node_it;
 
 	for (node_it NodeIt = G.begin(); NodeIt != G.end(); ++NodeIt)
 		NodeIt->unmark();
@@ -400,7 +400,7 @@ void unmark_nodes(graph_array<nodetype, arctype> & G)
 template <class nodetype, class arctype>
 void unmark_arcs_from_node(typename graph_array<nodetype, arctype>::node & N)
 {
-	typedef graph_array<nodetype, arctype>::out_arc_iterator arc_it;
+	typedef typename graph_array<nodetype, arctype>::out_arc_iterator arc_it;
 
 	for (arc_it ArcIt = N.out_begin(); ArcIt != N.out_end(); ++ArcIt)
 		ArcIt->unmark();
@@ -410,7 +410,7 @@ void unmark_arcs_from_node(typename graph_array<nodetype, arctype>::node & N)
 template <class nodetype, class arctype>
 void unmark_arcs(graph_array<nodetype, arctype> & G)
 {
-	typedef graph_array<nodetype, arctype>::node_iterator node_it;
+	typedef typename graph_array<nodetype, arctype>::node_iterator node_it;
 
 	for (node_it NodeIt = G.begin(); NodeIt != G.end(); ++NodeIt)
 		unmark_arcs_from_node(* NodeIt);

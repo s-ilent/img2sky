@@ -211,7 +211,8 @@ Edge *GreedySubdivision::select(int sx, int sy, Triangle *t)
 
     is_used(sx,sy) = DATA_POINT_USED;
     count++;
-    return insert(Vec2(sx,sy), t);
+    auto v2 = Vec2(sx,sy);
+    return insert(v2, t);
 }
 
 

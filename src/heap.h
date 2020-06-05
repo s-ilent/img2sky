@@ -1,8 +1,7 @@
-#ifndef HEAP_INCLUDED // -*- C++ -*-
-#define HEAP_INCLUDED
+#pragma once
 
-#include "Geom.h"
-#include "Array.h"
+#include "geom.h"
+#include "xarray.h"
 
 #define NOT_IN_HEAP -47
 
@@ -24,10 +23,10 @@ public:
 
 
 
-class Heap : public array<heap_node> {
+class Heap : public xarray<heap_node> {
 
     //
-    // The actual size of the heap.  array::length()
+    // The actual size of the heap.  xarray::length()
     // simply returns the amount of allocated space
     int size;
 
@@ -43,7 +42,7 @@ class Heap : public array<heap_node> {
 public:
 
     Heap() { size=0; }
-    Heap(int s) : array<heap_node>(s) { size=0; }
+    Heap(int s) : xarray<heap_node>(s) { size=0; }
 
 
     void insert(Labelled *, double);
@@ -54,6 +53,3 @@ public:
     heap_node *kill(int i);
 };
 
-
-
-#endif

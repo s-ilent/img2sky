@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "Quadedge.h"
+#include "quadedge.h"
 
 Edge::Edge(const Edge&)
 {

@@ -1,5 +1,4 @@
-#ifndef __MATRIX_TRANSFORM_H_
-#define __MATRIX_TRANSFORM_H_
+#pragma once
 
 #ifndef assert
 #include <assert.h>
@@ -27,19 +26,19 @@ public:
 	-By 4E534B
 ----------------------------------------------------------------------------*/
 
-// Retruns the value of a 2x2 determinant (either enter each value, or give an array)
+// Returns the value of a 2x2 determinant (either enter each value, or give an array)
 #define DET2(a, b, c, d)					(a * d - b * c)
 #define DET3(a, b, c, d, e, f, g, h, i)		(a * DET2(e, f, h, i) - b * DET2(d, f, g, i) + c * DET2(d, e, g, h))
 
-// Retruns the value of a 3x3 determinant (either enter each value, or give an array)
+// Returns the value of a 3x3 determinant (either enter each value, or give an array)
 #define DET2F(f)							DET2(f[0], f[1], f[2], f[3])
 #define DET3F(f)							DET3(f[0], f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8])
 
 // Returns a Null (all entries zero) matrix.
 inline void Mat4Null(matrix4 &mRet) {
-	mRet.m00 = mRet.m01 = mRet.m02 = mRet.m03 = 
-	mRet.m10 = mRet.m11 = mRet.m12 = mRet.m13 = 
-	mRet.m20 = mRet.m21 = mRet.m22 = mRet.m23 = 
+	mRet.m00 = mRet.m01 = mRet.m02 = mRet.m03 =
+	mRet.m10 = mRet.m11 = mRet.m12 = mRet.m13 =
+	mRet.m20 = mRet.m21 = mRet.m22 = mRet.m23 =
 	mRet.m30 = mRet.m31 = mRet.m32 = mRet.m33 = 0.0f;
 }
 
@@ -83,7 +82,7 @@ inline float Mat4Determinant(const matrix4 &m) {
 	return fRet;
 }
 
-// Returns whether an matrix is an identity matrix or not (ie |mat| = 1 or 
+// Returns whether an matrix is an identity matrix or not (ie |mat| = 1 or
 // non diagonal entries 0, diagonal entries 1)
 inline bool Mat4IsIdentity(const matrix4 &m) {
 	bool b1 = ((
@@ -254,5 +253,3 @@ template<class T> inline void Mat4Transform_Normal(const matrix4 &m, T &x, T &y,
 template<class T> inline void Mat4Transform_Normal(const matrix4 &m, T *pos) {
 	Mat4Transform_Normal(m, (*pos)[0], (*pos)[1], (*pos)[2]);
 }
-
-#endif	//	__MATRIX_TRANSFORM_H_

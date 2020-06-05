@@ -5,8 +5,8 @@
 
 #define EPS 1e-6
 #define EPS2 (EPS*EPS)
-#include "Vec2.h"
-#include "Vec3.h"
+#include "vec2.h"
+#include "vec3.h"
 
 enum Axis {X, Y, Z, W};
 enum Side {Left=-1, On=0, Right=1};

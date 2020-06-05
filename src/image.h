@@ -1,5 +1,4 @@
-#ifndef __TGAIMAGE_H__
-#define __TGAIMAGE_H__
+#pragma once
 
 /*
 **	Dependencies
@@ -85,15 +84,15 @@ struct TGAPixel32 {
 
 	// Pixel Values.
 	unsigned char GrayValue(void) {
-		return unsigned char(0.3f * R + 0.59f * G + 0.11f * B);
+		return (unsigned char) (0.3f * R + 0.59f * G + 0.11f * B);
 	}
 
 	unsigned char RMSValue(void) {
-		return unsigned char(sqrtf((powf(R, 2) + powf(G, 2) + powf(B, 2)) / 3));
+		return (unsigned char) (sqrtf((powf(R, 2) + powf(G, 2) + powf(B, 2)) / 3));
 	}
 
 	unsigned char AvgValue(void) {
-		return unsigned char(((short)R + (short)G + (short)B) / 3);
+		return (unsigned char)(((short)R + (short)G + (short)B) / 3);
 	}
 
 	// Conversion operator(s)
@@ -241,13 +240,13 @@ public:
 
 	// To retrieve a pixel (function for 'normalized' position also)
 	TGAPixel32 GetPixel(unsigned short x, unsigned short y) const;
-	TGAPixel32 GetPixel(float x, float y) const							{ return GetPixel(unsigned short(x * hdr.usWidth), unsigned short(y * hdr.usHeight)); }
-	template <class T> TGAPixel32 GetPixelA(T x, T y) const				{ return GetPixel(unsigned short(x), unsigned short(y)); }
+	TGAPixel32 GetPixel(float x, float y) const							{ return GetPixel((unsigned short)(x * hdr.usWidth), (unsigned short)(y * hdr.usHeight)); }
+	template <class T> TGAPixel32 GetPixelA(T x, T y) const				{ return GetPixel((unsigned short)(x), (unsigned short)(y)); }
 
 	// To set a pixel (function for 'normalized' position also
 	void SetPixel(unsigned short x, unsigned short y, TGAPixel32 p);
-	void SetPixel(float x, float y, TGAPixel32 p)						{ SetPixel(unsigned short(x * hdr.usWidth), unsigned short(y * hdr.usHeight), p); }
-	template <class T> void SetPixelA(T x, T y, TGAPixel32 p)			{ SetPixel(unsigned short(x), unsigned short(y), p); }
+	void SetPixel(float x, float y, TGAPixel32 p)						{ SetPixel((unsigned short)(x * hdr.usWidth), (unsigned short)(y * hdr.usHeight), p); }
+	template <class T> void SetPixelA(T x, T y, TGAPixel32 p)			{ SetPixel((unsigned short)(x), (unsigned short)(y), p); }
 
 	// To modify some basic info.
 	unsigned short GetWidth() const				{ return hdr.usWidth; }
@@ -355,9 +354,9 @@ public:
 
 				fPixel = P.R * 0.3f + P.G * 0.59f + P.B * 0.11f;
 
-				P.R = unsigned char(fPixel);
-				P.G = unsigned char(fPixel);
-				P.B = unsigned char(fPixel);
+				P.R = (unsigned char)(fPixel);
+				P.G = (unsigned char)(fPixel);
+				P.B = (unsigned char)(fPixel);
 				
 				SetPixel(x, y, P);
 			}
@@ -545,5 +544,3 @@ inline void TGAFile::SetPixel(unsigned short x, unsigned short y, TGAPixel32 p) 
 
 	pixels[_y * hdr.usWidth + _x] = p;
 }
-
-#endif	//	__TGAIMAGE_H__

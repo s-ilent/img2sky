@@ -48,7 +48,7 @@ void tri_stripper::Strip(primitives_vector * out_pPrimitivesVector)
 
 	// Free ressources
 	m_Triangles.clear();
-	
+
 	// Put the results into the user's vector
 	std::swap(m_PrimitivesVector, (* out_pPrimitivesVector));
 }
@@ -69,9 +69,9 @@ void tri_stripper::InitTriGraph()
 	TriInterface.reserve(m_Triangles.size() * 3);
 
 	for (int i = 0; i < m_Triangles.size(); ++i) {
-		TriInterface.push_back(triangle_edge(m_Triangles[i]->A(), m_Triangles[i]->B(), i)); 
-		TriInterface.push_back(triangle_edge(m_Triangles[i]->B(), m_Triangles[i]->C(), i)); 
-		TriInterface.push_back(triangle_edge(m_Triangles[i]->C(), m_Triangles[i]->A(), i)); 
+		TriInterface.push_back(triangle_edge(m_Triangles[i]->A(), m_Triangles[i]->B(), i));
+		TriInterface.push_back(triangle_edge(m_Triangles[i]->B(), m_Triangles[i]->C(), i));
+		TriInterface.push_back(triangle_edge(m_Triangles[i]->C(), m_Triangles[i]->A(), i));
 	}
 
 	// Sort the lookup table for faster searches
@@ -87,7 +87,7 @@ void tri_stripper::InitTriGraph()
 		LinkNeighboursTri(TriInterface, EdgeBA);
 		LinkNeighboursTri(TriInterface, EdgeCB);
 		LinkNeighboursTri(TriInterface, EdgeAC);
-	}	
+	}
 }
 
 
@@ -245,7 +245,7 @@ inline tri_stripper::triangle_strip tri_stripper::FindBestStrip()
 							BestStrip = TempStrip;
 							BestStripDegree = m_TriHeap[TempStrip.StartTriPos()].Degree();
 
-						// Priority 3: Keep the longest strip 
+						// Priority 3: Keep the longest strip
 						} else if (TempStrip.Size() > BestStrip.Size()) {
 							BestStrip = TempStrip;
 							BestStripDegree = m_TriHeap[TempStrip.StartTriPos()].Degree();
@@ -283,8 +283,8 @@ tri_stripper::triangle_strip tri_stripper::ExtendTriToStrip(const size_t StartTr
 
 
 	// Loop while we can further extend the strip
-	for (tri_node_iter TriNodeIt = (m_Triangles.begin() + StartTriPos); 
-		(TriNodeIt != m_Triangles.end()) && ((m_CacheSize <= 0) || ((Size + 2) < m_CacheSize)); 
+	for (tri_node_iter TriNodeIt = (m_Triangles.begin() + StartTriPos);
+		(TriNodeIt != m_Triangles.end()) && ((m_CacheSize <= 0) || ((Size + 2) < m_CacheSize));
 		++Size) {
 
 		// Get the triangle edge that would lead to the next triangle
@@ -328,7 +328,7 @@ tri_stripper::triangle_strip tri_stripper::ExtendTriToStrip(const size_t StartTr
 			--Size;
 		} else {
 			TriNodeIt = LinkIt->terminal();
-    
+
 			// Setup for the next triangle
 			(* TriNodeIt)->SetStripID(m_StripID);
 			ClockWise = ! ClockWise;
@@ -424,7 +424,7 @@ void tri_stripper::BuildStrip(const triangle_strip TriStrip)
 		// Go to the next triangle
 		TriNodeIt = LinkIt->terminal();
 		MarkTriAsTaken(TriNodeIt - m_Triangles.begin());
-        
+
 		// Setup for the next triangle
 		ClockWise = ! ClockWise;
 	}
@@ -473,7 +473,7 @@ inline void tri_stripper::AddIndiceToCache(const indice i, bool CacheHitCount)
 			if (std::find(m_IndicesCache.begin(), m_IndicesCache.end(), i) != m_IndicesCache.end())
 				++m_CacheHits;
 		}
-        
+
 		// Manage the indices cache as a FIFO structure
 		m_IndicesCache.pop_back();
 		m_IndicesCache.push_front(i);
@@ -484,7 +484,7 @@ inline void tri_stripper::AddIndiceToCache(const indice i, bool CacheHitCount)
 
 inline void tri_stripper::AddIndice(const indice i)
 {
-	// Add the indice to the current indices array
+	// Add the indice to the current indices xarray
 	m_PrimitivesVector.back().m_Indices.push_back(i);
 
 	// Run cache simulator
@@ -544,7 +544,7 @@ inline void tri_stripper::AddTriToIndices(const triangle & Tri, const triangle_s
 
 void tri_stripper::AddLeftTriangles()
 {
-	// Create the latest indices array
+	// Create the latest indices xarray
 	// and fill it with all the triangles that couldn't be stripped
 	primitives Primitives;
 	Primitives.m_Type = PT_Triangles;

@@ -13,7 +13,7 @@ namespace Edge_Detect {
 				c, c, c,
 	};
 
-	// Convolution filter (returns a signle channel, by averaging all given channels).
+	// Convolution filter (returns a single channel, by averaging all given channels).
 	void EdgeDetect_Filter(unsigned char* pOut, const unsigned char* pSourceData, const unsigned char bBPP, const long ulWidth, const long ulHeight, const float fConstant) {
 		// All the memory must be allocated, and the data should be valid, before calling this.
 		// Otherwise, we bail OUT.
@@ -23,7 +23,7 @@ namespace Edge_Detect {
 		float *pTMP = new float[ulWidth * ulHeight];
 		float *pTMP2 = new float[ulWidth * ulHeight];
 
-		// First, copy the channel data (without discarding any channel) to a floating point array.
+		// First, copy the channel data (without discarding any channel) to a floating point xarray.
 		for (long i = 0, j = 0; i < ulWidth * ulHeight * bBPP; i += bBPP, j++) {
 			pTMP[j] = 0; //pSourceData[i];
 
@@ -40,7 +40,7 @@ namespace Edge_Detect {
 		for (long y = 0; y < ulHeight; y++) {
 			for (long x = 0; x < ulWidth; x++) {
 				float fNew = 0.0f;
-				
+
 				for (long cy = 0, oy = -1; cy < ulKernelSize; cy++, oy++) {
 					for (long cx = 0, ox = -1; cx < ulKernelSize; cx++, ox++) {
 						float fVal = 0.0f;

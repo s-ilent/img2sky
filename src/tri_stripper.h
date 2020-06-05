@@ -31,13 +31,13 @@
 // Current version: 1.00 BETA 5 (10/12/2002)
 //
 // Comment: Triangle stripper in O(n.log(n)).
-//          
+//
 //          Currently there are no protection against crazy values
 //          given via SetMinStripSize() and SetCacheSize().
 //          So be careful. (Min. strip size should be equal or greater
 //          than 2, cache size should be about 10 for GeForce 256/2
-//          and about 16-18 for GeForce 3/4.) 
-//          
+//          and about 16-18 for GeForce 3/4.)
+//
 // History: - 1.00 BETA 5 (10/12/2002) - Fixed a bug in Stripify() that could sometimes
 //                                       cause it to go into an infinite loop.
 //                                       (thanks to Remy for the bug report)
@@ -97,7 +97,7 @@ public:
 
 	// constructor/initializer
 	tri_stripper(const indices & TriIndices);
-	
+
 	// Settings functions
 	void SetCacheSize(const size_t CacheSize = 16);			// = 0 will disable the cache optimizer
 	void SetMinStripSize(const size_t MinStripSize = 2);
@@ -199,7 +199,7 @@ private:
 	typedef common_structures::heap_array<triangle_degree, _cmp_tri_degree_gt> triangles_heap;
 	typedef std::vector<triangle_edge> triangle_edges;
 	typedef std::vector<size_t> triangle_indices;
-	typedef std::deque<indice> indices_cache; 
+	typedef std::deque<indice> indices_cache;
 
 
 	void InitCache();
@@ -364,7 +364,7 @@ inline bool tri_stripper::_cmp_tri_interface_lt::operator() (const triangle_edge
 
 
 inline bool tri_stripper::_cmp_tri_degree_gt::operator () (const triangle_degree & a, const triangle_degree & b) const {
-	// the triangle with a smaller degree has more priority 
+	// the triangle with a smaller degree has more priority
 	return a.Degree() > b.Degree();
 }
 

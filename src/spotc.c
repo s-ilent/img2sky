@@ -836,7 +836,7 @@ struct WebPChunkIterator {
 
 // Retrieves the 'chunk_number' instance of the chunk with id 'fourcc' from
 // 'dmux'.
-// 'fourcc' is a character array containing the fourcc of the chunk to return,
+// 'fourcc' is a character xarray containing the fourcc of the chunk to return,
 // e.g., "ICCP", "XMP ", "EXIF", etc.
 // Setting 'chunk_number' equal to 0 will return the last chunk in a set.
 // Returns true if the chunk is found, false otherwise. Image related chunk
@@ -1170,7 +1170,7 @@ struct WebPPicture {
 						  // 4: intra-16 prediction mode,
 						  // 5: chroma prediction mode,
 						  // 6: bit cost, 7: distortion
-  uint8_t* extra_info;    // if not NULL, points to an array of size
+  uint8_t* extra_info;    // if not NULL, points to an xarray of size
 						  // ((width + 15) / 16) * ((height + 15) / 16) that
 						  // will be filled with a macroblock map, depending
 						  // on extra_info_type.
@@ -1603,7 +1603,7 @@ static WEBP_INLINE WebPMux* WebPMuxCreate(const WebPData* bitstream,
 // Any existing chunk(s) with the same id will be removed.
 // Parameters:
 //   mux - (in/out) object to which the chunk is to be added
-//   fourcc - (in) a character array containing the fourcc of the given chunk;
+//   fourcc - (in) a character xarray containing the fourcc of the given chunk;
 //                 e.g., "ICCP", "XMP ", "EXIF" etc.
 //   chunk_data - (in) the chunk data to be added
 //   copy_data - (in) value 1 indicates given data WILL be copied to the mux
@@ -1621,7 +1621,7 @@ WEBP_EXTERN(WebPMuxError) WebPMuxSetChunk(
 // The caller should NOT free the returned data.
 // Parameters:
 //   mux - (in) object from which the chunk data is to be fetched
-//   fourcc - (in) a character array containing the fourcc of the chunk;
+//   fourcc - (in) a character xarray containing the fourcc of the chunk;
 //                 e.g., "ICCP", "XMP ", "EXIF" etc.
 //   chunk_data - (out) returned chunk data
 // Returns:
@@ -1635,7 +1635,7 @@ WEBP_EXTERN(WebPMuxError) WebPMuxGetChunk(
 // Deletes the chunk with the given 'fourcc' from the mux object.
 // Parameters:
 //   mux - (in/out) object from which the chunk is to be deleted
-//   fourcc - (in) a character array containing the fourcc of the chunk;
+//   fourcc - (in) a character xarray containing the fourcc of the chunk;
 //                 e.g., "ICCP", "XMP ", "EXIF" etc.
 // Returns:
 //   WEBP_MUX_INVALID_ARGUMENT - if mux or fourcc is NULL
@@ -2276,7 +2276,7 @@ typedef void (*WebPUnfilterFunc)(int width, int height, int stride,
 								 int row, int num_rows, uint8_t* data);
 
 // Filter the given data using the given predictor.
-// 'in' corresponds to a 2-dimensional pixel array of size (stride * height)
+// 'in' corresponds to a 2-dimensional pixel xarray of size (stride * height)
 // in raster order.
 // 'stride' is number of bytes per scan line (with possible padding).
 // 'out' should be pre-allocated.
@@ -4677,7 +4677,7 @@ typedef struct {
   uint8_t extra_bits;   // extra bits for escape codes
 } HuffmanTreeToken;
 
-// Struct to represent the tree codes (depth and bits array).
+// Struct to represent the tree codes (depth and bits xarray).
 typedef struct {
   int       num_symbols;   // Number of symbols.
   uint8_t*  code_lengths;  // Code lengths of the symbols.
@@ -18858,7 +18858,7 @@ static uint32_t Predictor13(uint32_t left, const uint32_t* const top) {
   return pred;
 }
 
-// TODO(vikasa): Export the predictor array, to allow SSE2 variants.
+// TODO(vikasa): Export the predictor xarray, to allow SSE2 variants.
 typedef uint32_t (*PredictorFunc)(uint32_t left, const uint32_t* const top);
 static const PredictorFunc kPredictors[16] = {
   Predictor0, Predictor1, Predictor2, Predictor3,
@@ -20431,7 +20431,7 @@ static void FUNC_NAME(const uint8_t *top_y, const uint8_t *bottom_y,    \
 					  const uint8_t *cur_u, const uint8_t *cur_v,       \
 					  uint8_t *top_dst, uint8_t *bottom_dst, int len) { \
   int block;                                                            \
-  /* 16 byte aligned array to cache reconstructed u and v */            \
+  /* 16 byte aligned xarray to cache reconstructed u and v */            \
   uint8_t uv_buf[2 * 32 + 15];                                          \
   uint8_t *const r_uv = (uint8_t*)((uintptr_t)(uv_buf + 15) & ~15);     \
   const int uv_len = (len + 1) >> 1;                                    \
@@ -20652,7 +20652,7 @@ static void FUNC_NAME(const uint8_t* top_y, const uint8_t* bottom_y,           \
 					  const uint8_t* cur_u, const uint8_t* cur_v,              \
 					  uint8_t* top_dst, uint8_t* bottom_dst, int len) {        \
   int uv_pos, pos;                                                             \
-  /* 16byte-aligned array to cache reconstructed u and v */                    \
+  /* 16byte-aligned xarray to cache reconstructed u and v */                    \
   uint8_t uv_buf[4 * 32 + 15];                                                 \
   uint8_t* const r_u = (uint8_t*)((uintptr_t)(uv_buf + 15) & ~15);             \
   uint8_t* const r_v = r_u + 32;                                               \
@@ -21230,7 +21230,7 @@ typedef enum {   // Rate-distortion optimization levels
 // YUV-cache parameters. Cache is 16-pixels wide.
 // The original or reconstructed samples can be accessed using VP8Scan[]
 // The predicted blocks can be accessed using offsets to yuv_p_ and
-// the arrays VP8*ModeOffsets[];
+// the xarrays VP8*ModeOffsets[];
 //         +----+      YUV Samples area. See VP8Scan[] for accessing the blocks.
 //  Y_OFF  |YYYY| <- original samples  ('yuv_in_')
 //         |YYYY|
@@ -21487,7 +21487,7 @@ void VP8IteratorImport(VP8EncIterator* const it, uint8_t* tmp_32);
 void VP8IteratorExport(const VP8EncIterator* const it);
 // go to next macroblock. Returns false if not finished.
 int VP8IteratorNext(VP8EncIterator* const it);
-// save the yuv_out_ boundary values to top_/left_ arrays for next iterations.
+// save the yuv_out_ boundary values to top_/left_ xarrays for next iterations.
 void VP8IteratorSaveBoundary(VP8EncIterator* const it);
 // Report progression based on macroblock rows. Return 0 for user-abort request.
 int VP8IteratorProgress(const VP8EncIterator* const it,
@@ -21827,7 +21827,7 @@ void VP8LHistogramInit(VP8LHistogram* const p, int palette_code_bits);
 void VP8LHistogramStoreRefs(const VP8LBackwardRefs* const refs,
 							VP8LHistogram* const histo);
 
-// Allocate an array of pointer to histograms, allocated and initialized
+// Allocate an xarray of pointer to histograms, allocated and initialized
 // using 'cache_bits'. Return NULL in case of memory error.
 VP8LHistogramSet* VP8LAllocateHistogramSet(int size, int cache_bits);
 
@@ -23042,7 +23042,7 @@ static void FTransform(const uint8_t* src, const uint8_t* ref,
 	// op[12]= (d1*2217 - c1*5352 + 51000)>>16
 	"vshrn.s32       d3, q12, #16             \n"
 
-	// set result to out array
+	// set result to out xarray
 	"vst1.16         {q0, q1}, [%[out]]   \n"
 	: [src_ptr] "+r"(src_ptr), [ref_ptr] "+r"(ref_ptr),
 	  [coeff32] "+r"(coeff32)          // modified registers
@@ -23278,7 +23278,7 @@ static int Disto4x4(const uint8_t* const a, const uint8_t* const b,
 	"vmla.u32        q1, q2, q15              \n"
 	"vmla.u32        q9, q3, q15              \n"
 
-	// Sum the arrays
+	// Sum the xarrays
 	"vpaddl.u32      q1, q1                   \n"
 	"vpaddl.u32      q9, q9                   \n"
 	"vadd.u64        d2, d3                   \n"
@@ -24646,7 +24646,7 @@ android_cpuInit(void)
 		 * The list is well-known, unlike the the output of
 		 * the 'Processor' field which can vary greatly.
 		 *
-		 * See the definition of the 'proc_arch' array in
+		 * See the definition of the 'proc_arch' xarray in
 		 * $KERNEL/arch/arm/kernel/setup.c and the 'c_show' function in
 		 * same file.
 		 */
@@ -25833,11 +25833,11 @@ static int DistanceToPlaneCode(int xsize, int dist) {
   return dist + 120;
 }
 
-static WEBP_INLINE int FindMatchLength(const uint32_t* const array1,
-									   const uint32_t* const array2,
+static WEBP_INLINE int FindMatchLength(const uint32_t* const xarray1,
+									   const uint32_t* const xarray2,
 									   const int max_limit) {
   int match_len = 0;
-  while (match_len < max_limit && array1[match_len] == array2[match_len]) {
+  while (match_len < max_limit && xarray1[match_len] == xarray2[match_len]) {
 	++match_len;
   }
   return match_len;
@@ -25965,7 +25965,7 @@ static int HashChainFindCopy(const HashChain* const p,
 	}
 	--iter_pos;
 
-	// Before 'expensive' linear match, check if the two arrays match at the
+	// Before 'expensive' linear match, check if the two xarrays match at the
 	// current best length index and also for the succeeding elements.
 	if (*ptr1 != *ptr2) continue;
 
@@ -26244,7 +26244,7 @@ static WEBP_INLINE double GetDistanceCost(const CostModel* const m,
 
 static int BackwardReferencesHashChainDistanceOnly(
 	int xsize, int ysize, int recursive_cost_model, const uint32_t* const argb,
-	int quality, int cache_bits, uint32_t* const dist_array) {
+	int quality, int cache_bits, uint32_t* const dist_xarray) {
   int i;
   int ok = 0;
   int cc_init = 0;
@@ -26280,7 +26280,7 @@ static int BackwardReferencesHashChainDistanceOnly(
 
   // We loop one pixel at a time, but store all currently best points to
   // non-processed locations from this point.
-  dist_array[0] = 0;
+  dist_xarray[0] = 0;
   GetParamsForHashChainFindCopy(quality, xsize, cache_bits,
 								&window_size, &iter_pos, &iter_limit);
   for (i = 0; i < pix_count; ++i) {
@@ -26307,7 +26307,7 @@ static int BackwardReferencesHashChainDistanceOnly(
 		  const double cost_val = distance_cost + GetLengthCost(cost_model, k);
 		  if (cost[i + k] > cost_val) {
 			cost[i + k] = (float)cost_val;
-			dist_array[i + k] = k + 1;
+			dist_xarray[i + k] = k + 1;
 		  }
 		}
 		// This if is for speedup only. It roughly doubles the speed, and
@@ -26350,7 +26350,7 @@ static int BackwardReferencesHashChainDistanceOnly(
 	  }
 	  if (cost[i] > cost_val) {
 		cost[i] = (float)cost_val;
-		dist_array[i] = 1;  // only one is inserted.
+		dist_xarray[i] = 1;  // only one is inserted.
 	  }
 	}
  next_symbol: ;
@@ -26366,23 +26366,23 @@ Error:
   return ok;
 }
 
-// We pack the path at the end of *dist_array and return
-// a pointer to this part of the array. Example:
-// dist_array = [1x2xx3x2] => packed [1x2x1232], chosen_path = [1232]
-static void TraceBackwards(uint32_t* const dist_array,
-						   int dist_array_size,
+// We pack the path at the end of *dist_xarray and return
+// a pointer to this part of the xarray. Example:
+// dist_xarray = [1x2xx3x2] => packed [1x2x1232], chosen_path = [1232]
+static void TraceBackwards(uint32_t* const dist_xarray,
+						   int dist_xarray_size,
 						   uint32_t** const chosen_path,
 						   int* const chosen_path_size) {
-  uint32_t* path = dist_array + dist_array_size;
-  uint32_t* cur = dist_array + dist_array_size - 1;
-  while (cur >= dist_array) {
+  uint32_t* path = dist_xarray + dist_xarray_size;
+  uint32_t* cur = dist_xarray + dist_xarray_size - 1;
+  while (cur >= dist_xarray) {
 	const int k = *cur;
 	--path;
 	*path = k;
 	cur -= k;
   }
   *chosen_path = path;
-  *chosen_path_size = (int)(dist_array + dist_array_size - path);
+  *chosen_path_size = (int)(dist_xarray + dist_xarray_size - path);
 }
 
 static int BackwardReferencesHashChainFollowChosenPath(
@@ -26468,20 +26468,20 @@ static int BackwardReferencesTraceBackwards(int xsize, int ysize,
 											int quality, int cache_bits,
 											VP8LBackwardRefs* const refs) {
   int ok = 0;
-  const int dist_array_size = xsize * ysize;
+  const int dist_xarray_size = xsize * ysize;
   uint32_t* chosen_path = NULL;
   int chosen_path_size = 0;
-  uint32_t* dist_array =
-	  (uint32_t*)WebPSafeMalloc((uint64_t)dist_array_size, sizeof(*dist_array));
+  uint32_t* dist_xarray =
+	  (uint32_t*)WebPSafeMalloc((uint64_t)dist_xarray_size, sizeof(*dist_xarray));
 
-  if (dist_array == NULL) goto Error;
+  if (dist_xarray == NULL) goto Error;
 
   if (!BackwardReferencesHashChainDistanceOnly(
 	  xsize, ysize, recursive_cost_model, argb, quality, cache_bits,
-	  dist_array)) {
+	  dist_xarray)) {
 	goto Error;
   }
-  TraceBackwards(dist_array, dist_array_size, &chosen_path, &chosen_path_size);
+  TraceBackwards(dist_xarray, dist_xarray_size, &chosen_path, &chosen_path_size);
   if (!BackwardReferencesHashChainFollowChosenPath(
 	  xsize, ysize, argb, quality, cache_bits, chosen_path, chosen_path_size,
 	  refs)) {
@@ -26489,7 +26489,7 @@ static int BackwardReferencesTraceBackwards(int xsize, int ysize,
   }
   ok = 1;
  Error:
-  free(dist_array);
+  free(dist_xarray);
   return ok;
 }
 
@@ -28929,7 +28929,7 @@ void VP8LHistogramAddSinglePixOrCopy(VP8LHistogram* const histo,
   }
 }
 
-static double BitsEntropy(const int* const array, int n) {
+static double BitsEntropy(const int* const xarray, int n) {
   double retval = 0.;
   int sum = 0;
   int nonzeros = 0;
@@ -28937,12 +28937,12 @@ static double BitsEntropy(const int* const array, int n) {
   int i;
   double mix;
   for (i = 0; i < n; ++i) {
-	if (array[i] != 0) {
-	  sum += array[i];
+	if (xarray[i] != 0) {
+	  sum += xarray[i];
 	  ++nonzeros;
-	  retval -= VP8LFastSLog2(array[i]);
-	  if (max_val < array[i]) {
-		max_val = array[i];
+	  retval -= VP8LFastSLog2(xarray[i]);
+	  if (max_val < xarray[i]) {
+		max_val = xarray[i];
 	  }
 	}
   }
@@ -29568,7 +29568,7 @@ void VP8IteratorExport(const VP8EncIterator* const it) {
 // 22 23
 // 24           DC-intra16
 
-// Convert packed context to byte array
+// Convert packed context to byte xarray
 #define BIT(nz, n) (!!((nz) & (1 << (n))))
 
 void VP8IteratorNzToBytes(VP8EncIterator* const it) {
@@ -29704,7 +29704,7 @@ void VP8SetSegment(const VP8EncIterator* const it, int segment) {
 //------------------------------------------------------------------------------
 // Intra4x4 sub-blocks iteration
 //
-//  We store and update the boundary samples into an array of 37 pixels. They
+//  We store and update the boundary samples into an xarray of 37 pixels. They
 //  are updated as we iterate and reconstructs each intra4x4 blocks in turn.
 //  The position of the samples has the following snake pattern:
 //
@@ -32078,7 +32078,7 @@ static void PickBestIntra16(VP8EncIterator* const it, VP8ModeScore* const rd) {
 
 //------------------------------------------------------------------------------
 
-// return the cost array corresponding to the surrounding prediction modes.
+// return the cost xarray corresponding to the surrounding prediction modes.
 static const uint16_t* GetCostModeI4(VP8EncIterator* const it,
 									 const uint8_t modes[16]) {
   const int preds_w = it->enc_->preds_w_;
@@ -32766,7 +32766,7 @@ int VP8EncWrite(VP8Encoder* const enc) {
 //  A 'token' is a bit value associated with a probability, either fixed
 // or a later-to-be-determined after statistics have been collected.
 // For dynamic probability, we just record the slot id (idx) for the probability
-// value in the final probability array (uint8_t* probas in VP8EmitTokens).
+// value in the final probability xarray (uint8_t* probas in VP8EmitTokens).
 //
 // Author: Skal (pascal.massimino@gmail.com)
 
@@ -34043,7 +34043,7 @@ static int EncodeImageInternal(VP8LBitWriter* const bw,
   VP8LHistogramSet* histogram_image =
 	  VP8LAllocateHistogramSet(histogram_image_xysize, 0);
   int histogram_image_size = 0;
-  size_t bit_array_size = 0;
+  size_t bit_xarray_size = 0;
   HuffmanTreeCode* huffman_codes = NULL;
   VP8LBackwardRefs refs;
   uint16_t* const histogram_symbols =
@@ -34072,8 +34072,8 @@ static int EncodeImageInternal(VP8LBitWriter* const bw,
   }
   // Create Huffman bit lengths and codes for each histogram image.
   histogram_image_size = histogram_image->size;
-  bit_array_size = 5 * histogram_image_size;
-  huffman_codes = (HuffmanTreeCode*)WebPSafeCalloc(bit_array_size,
+  bit_xarray_size = 5 * histogram_image_size;
+  huffman_codes = (HuffmanTreeCode*)WebPSafeCalloc(bit_xarray_size,
 												   sizeof(*huffman_codes));
   if (huffman_codes == NULL ||
 	  !GetHuffBitLengthsAndCodes(histogram_image, huffman_codes)) {

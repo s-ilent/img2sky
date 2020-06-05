@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Geom.h"
+#include "geom.h"
 
 class Triangle;
 

@@ -9,14 +9,14 @@
 // Taken from gfxTools.h 1.2
 
 template<class T>
-class array {
+class xarray {
 protected:
     T *data;
     int len;
 public:
-    array() { data=NULL; len=0; }
-    array(int l) { init(l); }
-    ~array() { free(); }
+    xarray() { data=NULL; len=0; }
+    xarray(int l) { init(l); }
+    ~xarray() { free(); }
 
 
     inline void init(int l);
@@ -31,14 +31,14 @@ public:
 };
 
 template<class T>
-inline void array<T>::init(int l)
+inline void xarray<T>::init(int l)
 {
     data = new T[l];
     len = l;
 }
 
 template<class T>
-inline void array<T>::free()
+inline void xarray<T>::free()
 {
     if( data )
     {
@@ -48,7 +48,7 @@ inline void array<T>::free()
 }
 
 template<class T>
-inline T& array<T>::ref(int i)
+inline T& xarray<T>::ref(int i)
 {
     assert( data );
     assert( i>=0 && i<len );
@@ -56,7 +56,7 @@ inline T& array<T>::ref(int i)
 }
 
 template<class T>
-inline void array<T>::resize(int l)
+inline void xarray<T>::resize(int l)
 {
     T *old = data;
     data = new T[l];
@@ -66,14 +66,14 @@ inline void array<T>::resize(int l)
 }
 
 template<class T>
-class array2 {
+class xarray2 {
 protected:
     T *data;
     int w, h;
 public:
-    array2() { data=NULL; w=h=0; }
-    array2(int w, int h) { init(w,h); }
-    ~array2() { free(); }
+    xarray2() { data=NULL; w=h=0; }
+    xarray2(int w, int h) { init(w,h); }
+    ~xarray2() { free(); }
 
     inline void init(int w, int h);
     inline void free();
@@ -85,7 +85,7 @@ public:
 };
 
 template<class T>
-inline void array2<T>::init(int width,int height)
+inline void xarray2<T>::init(int width,int height)
 {
     w = width;
     h = height;
@@ -93,7 +93,7 @@ inline void array2<T>::init(int width,int height)
 }
 
 template<class T>
-inline void array2<T>::free()
+inline void xarray2<T>::free()
 {
     if( data )
     {
@@ -103,7 +103,7 @@ inline void array2<T>::free()
 }
 
 template<class T>
-inline T& array2<T>::ref(int i, int j)
+inline T& xarray2<T>::ref(int i, int j)
 {
     assert( data );
     assert( i>=0 && i<w );

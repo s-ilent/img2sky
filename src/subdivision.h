@@ -1,7 +1,6 @@
-#ifndef SUBDIVISION_INCLUDED // -*- C++ -*-
-#define SUBDIVISION_INCLUDED
+#pragma once
 
-#include "Quadedge.h"
+#include "quadedge.h"
 
 class Subdivision;
 
@@ -89,7 +88,4 @@ inline ostream& operator<<(ostream& out, Triangle& t)
     return out << "Triangle("<< t.point1() << " " << t.point2() << " "
 	       << t.point3() << ")";
 }
-#endif
-
-
 #endif

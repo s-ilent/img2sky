@@ -4,16 +4,20 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <cstdlib>
 
 #include "spot.hpp"
-#include "Main.h"
+#include "main.h"
+
+#if defined(__MACH__)
+#include <sys/utsname.h>
+#endif
 
 #define IMG2SKY_BUILD "DEBUG"
-#define IMG2SKY_URL "https://github.com/r-lyeh/img2sky"
 #define IMG2SKY_TEXT "img2sky " IMG2SKY_VERSION " (" IMG2SKY_BUILD ")"
-#define IMG2SKY_VERSION "0.0.3" /* options for plane and custom curved planes and hemispheres (@perfectforwarding); Bugfixed vertically flipped images (@r-lyeh)
+#define IMG2SKY_VERSION "0.0.3" // options for plane and custom curved planes and hemispheres (@perfectforwarding); Bugfixed vertically flipped images (@r-lyeh)
 #define IMG2SKY_VERSION "0.0.2" // customizable radius sphere
-#define IMG2SKY_VERSION "0.0.1" // initial revision */
+#define IMG2SKY_VERSION "0.0.1" // initial revision
 
 #if defined(NDEBUG) || defined(_NDEBUG)
 #undef  IMG2SKY_BUILD
@@ -48,10 +52,21 @@ std::string lowercase( std::string input ) {
     return input;
 }
 
+std::string machine_name() {
+#if defined(__MACH__)
+    struct utsname info;
+    uname(&info);
+    return info.nodename;
+#else
+    return getenv("COMPUTERNAME");
+#endif
+}
+
+
 void help( const std::string &arg0 ) {
     std::stringstream cout;
 
-    std::cout << arg0 << ": " << IMG2SKY_TEXT ". Compiled on " __DATE__ " - " IMG2SKY_URL << std::endl;
+    std::cout << arg0 << ": " << IMG2SKY_TEXT ". Compiled on " __DATE__ " - " << machine_name() << std::endl;
     std::cout << std::endl;
     std::cout << "Usage:" << std::endl;
     std::cout << "    img2sky [options] input.img [...]" << std::endl;
@@ -84,7 +99,7 @@ bool parse_cmdline( int argc, const char **argv ) {
     // Print message
     if (argc == 1) {
         help(argv[0]);
-        return true; 
+        return true;
     }
 
     // Process command-line options.
@@ -226,8 +241,8 @@ int main(int argc, const char **argv) {
         errors += local_error;
 
         if( TGA ) {
-            TGA->CleanUp();     
-        } 
+            TGA->CleanUp();
+        }
     }
 
     return errors ? -1 : 0;

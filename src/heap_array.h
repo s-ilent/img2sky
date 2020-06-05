@@ -36,7 +36,7 @@
 //          has been removed (pop, erase, etc...).
 //          Elements can be modified after they've been pushed into
 //          the heap via their indice.
-//          
+//
 // History: -
 //
 //////////////////////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ namespace common_structures {
 
 
 
-template <class T, class CmpT = std::less<T> > 
+template <class T, class CmpT = std::less<T> >
 class heap_array
 {
 public:
@@ -59,7 +59,7 @@ public:
 	struct heap_is_locked {	};
 
 
-	// heap_array main interface. Pre = PreCondition, Post = PostCondition 
+	// heap_array main interface. Pre = PreCondition, Post = PostCondition
 
 	heap_array() : m_Locked(false) { }		// Post: ((size() == 0) && ! locked())
 
@@ -112,7 +112,7 @@ protected:
 // heap_indexed Inline functions
 //////////////////////////////////////////////////////////////////////////
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline void heap_array<T, CmpT>::clear() {
 	m_Heap.clear();
 	m_Finder.clear();
@@ -120,7 +120,7 @@ inline void heap_array<T, CmpT>::clear() {
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline bool heap_array<T, CmpT>::empty() const {
 	return m_Heap.empty();
 }
@@ -139,13 +139,13 @@ inline void heap_array<T, CmpT>::reserve(size_t Size) {
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline size_t heap_array<T, CmpT>::size() const {
 	return m_Heap.size();
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline const T & heap_array<T, CmpT>::top() const {
 	// Debug check to ensure heap is not empty
 	assert(! empty());
@@ -154,7 +154,7 @@ inline const T & heap_array<T, CmpT>::top() const {
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline const T & heap_array<T, CmpT>::peek(size_t i) const {
 	// Debug check to ensure element is still present
 	assert(! removed(i));
@@ -163,13 +163,13 @@ inline const T & heap_array<T, CmpT>::peek(size_t i) const {
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline const T & heap_array<T, CmpT>::operator [] (size_t i) const {
 	return peek(i);
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline void heap_array<T, CmpT>::pop() {
 	m_Locked = true;
 
@@ -182,7 +182,7 @@ inline void heap_array<T, CmpT>::pop() {
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline size_t heap_array<T, CmpT>::push(const T & Elem) {
 	if (m_Locked)
 		throw heap_is_locked();
@@ -222,7 +222,7 @@ inline bool heap_array<T, CmpT>::valid(size_t i) const {
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline void heap_array<T, CmpT>::update(size_t i, const T & Elem) {
 	// Debug check to ensure element is still present
 	assert(! removed(i));
@@ -233,7 +233,7 @@ inline void heap_array<T, CmpT>::update(size_t i, const T & Elem) {
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline void heap_array<T, CmpT>::Adjust(size_t i) {
 	size_t j;
 
@@ -254,7 +254,7 @@ inline void heap_array<T, CmpT>::Adjust(size_t i) {
 }
 
 
-template <class T, class CmpT> 
+template <class T, class CmpT>
 inline void heap_array<T, CmpT>::Swap(size_t a, size_t b) {
 	std::swap(m_Heap[a], m_Heap[b]);
 

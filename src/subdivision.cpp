@@ -2,8 +2,7 @@
 #include <iostream>
 #include <assert.h>
 
-#include "Subdivision.h"
-
+#include "subdivision.h"
 
 
 Edge *Subdivision::makeEdge(Vec2& org, Vec2& dest)
@@ -174,7 +173,7 @@ bool Subdivision::onEdge(const Vec2& x, Edge *e)
 bool Subdivision::isInterior(Edge *e)
 //
 // Tests whether e is an interior edge.
-// 
+//
 // WARNING: This topological test will not work if the boundary is
 //          a triangle.  This is not a problem here; the boundary is
 //          always a rectangle.  But if you try to adapt this code, please

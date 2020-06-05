@@ -1,4 +1,4 @@
-#include "Main.h"
+#include "main.h"
 #include <iostream>
 
 void scripted_preinsertion(std::istream& script)

@@ -1,11 +1,10 @@
-#ifndef MAP_INCLUDED // -*- C++ -*-
-#define MAP_INCLUDED
+#pragma once
 
 #include <cassert>
 #include <stdlib.h>
 #include <iostream>
 
-#include "Geom.h"
+#include "geom.h"
 
 class Map
 {
@@ -102,6 +101,3 @@ void DirectMap<T>::textRead(std::istream& in)
 
 
 
-
-
-#endif

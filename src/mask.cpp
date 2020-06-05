@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "Geom.h"
-#include "Mask.h"
+#include "geom.h"
+#include "mask.h"
 
 
 realMask *readMask(std::istream& in)

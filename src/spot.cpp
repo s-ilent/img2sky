@@ -15245,7 +15245,12 @@ namespace jpge
 
 #include <stdlib.h>
 #include <string.h>
+
+#if defined(__MACH__)
+#include <stdlib.h>
+#else
 #include <malloc.h>
+#endif
 
 #define JPGE_MAX(a,b) (((a)>(b))?(a):(b))
 #define JPGE_MIN(a,b) (((a)<(b))?(a):(b))

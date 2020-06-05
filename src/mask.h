@@ -1,5 +1,4 @@
-#ifndef MASK_INCLUDED // -*- C++ -*-
-#define MASK_INCLUDED
+#pragma once
 
 class ImportMask
 {
@@ -43,5 +42,3 @@ inline double& realMask::ref(int i, int j)
 }
 
 extern realMask *readMask(std::istream&);
-
-#endif

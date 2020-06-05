@@ -125,9 +125,11 @@ bool TGAFile::WriteTGA(const char *szFileName) const {
 
 	// Write the pixels.
 	for (y = GetHeight(); y > 0; y--) {
-		for (x = 0; x < GetWidth(); x++)
-			fwrite(&GetPixelA(x, y - 1), sizeof(char), GetBPP() / 8, pFile);
-	}
+        for (x = 0; x < GetWidth(); x++) {
+            auto p = GetPixelA(x, y - 1);
+            fwrite(&p, sizeof(char), GetBPP() / 8, pFile);
+        }
+    }
 
 	fclose(pFile);
 
@@ -358,7 +360,7 @@ void TGAFile::Convolute(const bool bColoured, const float fConvConstant) {
 void *TGAFile::ConvoluteChannel(const unsigned char bInd, const float fConvConstant) const {
 	// Make sure that our image is present.
 	if (pixels == NULL)
-		return false;
+		return nullptr;
 
 	const unsigned long ulNumPixels = (unsigned long)hdr.usWidth * (unsigned long)hdr.usHeight;
 
@@ -470,7 +472,7 @@ void TGAFile::ColourMult(float fFactor) {
 void *TGAFile::GetImageData(unsigned char bR, unsigned char bG, unsigned char bB, unsigned char bA) const {
 	// Make sure that our image is present.
 	if (pixels == NULL)
-		return false;
+		return nullptr;
 
 	// Get the number of channels
 	unsigned char bNumChannels = 0;

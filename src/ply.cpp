@@ -1,4 +1,4 @@
-#include "Main.h"
+#include "main.h"
 
 #include <fstream>
 #include <sstream>
@@ -30,7 +30,7 @@ static unsigned ply_faces = 0;
 static void ply_face(Triangle& T, void *closure)
 {
     std::ostream& out = *output_stream;
-    array2<int>& vert_id = *(array2<int> *)closure;
+    xarray2<int>& vert_id = *(xarray2<int> *)closure;
 
     const Vec2& p1 = T.point1();
     const Vec2& p2 = T.point2();
@@ -41,7 +41,7 @@ static void ply_face(Triangle& T, void *closure)
     out << vert_id((int)p2[X], (int)p2[Y]) << " ";
     out << vert_id((int)p3[X], (int)p3[Y]) << std::endl;
 
-    ply_faces++;    
+    ply_faces++;
 }
 
 static void ply_vertex(::ostream& out, int x, int y, int z = 0)
@@ -68,15 +68,15 @@ static void ply_vertex(::ostream& out, int x, int y, int z = 0)
         }
 
 
-        
+
         if(0) {
             // mercator projection
             LON = x / R;
             LAT = 2 * atan(exp(y/R)) - PI/2;
         } else {
-            // this is very naive :s            
+            // this is very naive :s
             double lx = ( double(x) / (DEM->width-1) ) * 360 - 180;
-            double ly = ( double(y) / (DEM->height-1) ) * 180 - 90;                
+            double ly = ( double(y) / (DEM->height-1) ) * 180 - 90;
             if( make_geometry != sphere ) {
                 // assume a hemisphere
                 lx = ( double(x) / (DEM->width-1) ) * 180 - 90;
@@ -108,11 +108,11 @@ static void ply_vertex(::ostream& out, int x, int y, int z = 0)
             double fd = sqrt((fx*fx + fy*fy) / 2.0);            // normalized length from center
             double lz = radius * fd * fd;
 
-            out << x << " " << y << " " << lz << " " << int(p.R) << " " << int(p.G) << " " << int(p.B) << " " << int(p.A) << std::endl;            
+            out << x << " " << y << " " << lz << " " << int(p.R) << " " << int(p.G) << " " << int(p.B) << " " << int(p.A) << std::endl;
         } else {
             out << x << " " << y << " " << z << " " << int(p.R) << " " << int(p.G) << " " << int(p.B) << " " << int(p.A) << std::endl;
         }
-        return;     
+        return;
     }
 }
 
@@ -124,7 +124,7 @@ bool output_ply(const char *filename)
     int width = DEM->width;
     int height = DEM->height;
 
-    array2<int> vert_id(width, height);
+    xarray2<int> vert_id(width, height);
     int index = 0;
 
     for(int x=0; x<width; x++) {
@@ -144,7 +144,7 @@ bool output_ply(const char *filename)
     ::ofstream out(filename);
     out << "ply" << std::endl;
     out << "format ascii 1.0" << std::endl;
-    out << "comment author: https://github.com/r-lyeh/img2sky" << std::endl;
+    out << "comment author: " << machine_name() << std::endl;
     out << "comment object: vertex-color mesh" << std::endl;
     out << "element vertex " << index << std::endl;
     out << "property float x" << std::endl;
